@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: fct_customers
+  - name: dim_customers
     columns:
       - name: customer_id
         tests:
@@ -28,3 +28,20 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
+  - name: fct_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: order_date
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['returned', 'completed', 'return_pending', 'shipped', 'placed']
